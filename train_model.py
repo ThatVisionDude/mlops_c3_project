@@ -30,7 +30,7 @@ X_test, y_test, encoder, lb = process_data(
     test, training=False, label="salary", 
     categorical_features=cat_features, 
     encoder = encoder, lb = lb)
-
+print(type(X_test))
 # Train and save a model.
 used_model = train_model(X_train, y_train)
 precision, recall, fbeta = compute_model_metrics(y_test,inference(used_model, X_test))
@@ -38,6 +38,6 @@ print("Overall accuracy:")
 print("Precision: " + str(precision))
 print("Recall: " + str(recall))
 print("FBeta: " + str(fbeta))
-save_model(used_model, "model")
+save_model(used_model, encoder, lb, "model")
 
 slice_performance(test, X_test, y_test, used_model, "education")

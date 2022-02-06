@@ -1,6 +1,7 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn import svm
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
@@ -63,18 +64,26 @@ def inference(model, X):
     """
     return model.predict(X)
 
-def save_model(model, name: str):
+def save_model(model, encoder: OneHotEncoder, label_binarizer: LabelBinarizer, name: str):
     assert(type(name)==str)
     from joblib import dump
     print("Saving model to file " + name)
     dump(model, name)
+    print("Saving encoder to file " + name + '_enc')
+    dump(encoder, name+ '_enc')
+    print("Saving label binarizer to file " + name + '_lb')
+    dump(label_binarizer, name + '_lb')
 
 def load_model(name: str):
     from joblib import load
     assert(type(name)==str)
     print("Loading model from file: " + name)
     model = load(name)
-    return model
+    print("Loading encoder from file " + name + '_enc')
+    enc = load(name+ '_enc')
+    print("Loading label binarizer from file " + name + '_lb')
+    lb = load(name + '_lb')
+    return [model, enc, lb]
 
 def get_rows(data, cat_variable, unique_cls):
     return data[data[cat_variable] == unique_cls].index
