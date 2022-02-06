@@ -30,7 +30,6 @@ X_test, y_test, encoder, lb = process_data(
     test, training=False, label="salary", 
     categorical_features=cat_features, 
     encoder = encoder, lb = lb)
-print(type(X_test))
 # Train and save a model.
 used_model = train_model(X_train, y_train)
 precision, recall, fbeta = compute_model_metrics(y_test,inference(used_model, X_test))
