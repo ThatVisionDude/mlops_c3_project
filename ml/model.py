@@ -1,6 +1,5 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn import svm
-from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 # Optional: implement hyperparameter tuning.
@@ -21,7 +20,7 @@ def train_model(X_train, y_train):
     """
     if X_train.shape[0] != y_train.shape[0]:
         raise Exception("X_train and y_train must have the same shape.")
-    model = svm.SVC()
+    model = RandomForestClassifier(n_estimators=200, min_samples_leaf = 2)
     model.fit(X_train, y_train)
     return model
 
