@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import numpy as np
 import pandas as pd
 from pydantic import BaseModel, Field
+import json
 
 from ml.data import process_data
 from ml.model import load_model, inference
@@ -60,12 +61,15 @@ async def welcome_user():
 
 @app.post("/inference/")
 async def doInference(inp: ModelInput):
-    X = pd.read_json(inp.json())
+    dico = json.loads(inp.json())
+    X=pd.DataFrame(columns = dico.keys())
+    X = X.append(dico, ignore_index=True)
+    X.columns = [k.replace("_", "-") for k in dico.keys()]
     model, enc, lb = load_model(model_name)
-
     X_inp, _,_,_= process_data(
     X, training=False, 
     categorical_features=cat_features, 
     encoder = enc, lb = lb)
-
-    return {"inference_result": inference(model, X_inp)}
+    inf_res = inference(model, X_inp)
+    label = lb.inverse_transform(inf_res)
+    return {"inference_result": label[0]}

@@ -43,7 +43,6 @@ def process_data(
         Trained LabelBinarizer if training is True, otherwise returns the binarizer
         passed in.
     """
-
     if label is not None:
         y = X[label]
         X = X.drop([label], axis=1)
@@ -65,6 +64,5 @@ def process_data(
         # Catch the case where y is None because we're doing inference.
         except AttributeError:
             pass
-
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
