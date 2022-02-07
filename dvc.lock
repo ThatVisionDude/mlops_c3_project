@@ -1,0 +1,21 @@
+schema: '2.0'
+stages:
+  train_model:
+    cmd: python3 train_model.py
+    deps:
+    - path: data/census_nospace.csv
+      md5: 12c208530a5680c15ae19b34152286dd
+      size: 3518606
+    - path: train_model.py
+      md5: 9f13b48a6b18a8d11c0f5024fea6a849
+      size: 1404
+    outs:
+    - path: model
+      md5: 132c9028aa04bd4007cc6ebe35015d5b
+      size: 42257294
+    - path: model_enc
+      md5: a553f204feb7d25cff7013915fd7ce8a
+      size: 3898
+    - path: model_lb
+      md5: 68d67643c2f11e180eaa335146ade2ea
+      size: 403

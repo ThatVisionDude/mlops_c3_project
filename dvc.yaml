@@ -1,0 +1,10 @@
+stages:
+  train_model:
+    cmd: python3 train_model.py
+    deps:
+    - data/census_nospace.csv
+    - train_model.py
+    outs:
+    - model
+    - model_enc
+    - model_lb
