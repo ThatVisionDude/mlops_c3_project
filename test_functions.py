@@ -47,7 +47,7 @@ def test_train_model():
     with pytest.raises(TypeError):
         train_model(X)
     model = train_model(X, y)
-    assert isinstance(model, type(sklearn.svm.SVC()))
+    assert isinstance(model, type(sklearn.ensemble.RandomForestClassifier()))
 
 
 def test_save_load_model():
@@ -76,13 +76,16 @@ def test_save_load_model():
     with pytest.raises(TypeError):
         load_model()
 
-    with pytest.raises(AssertionError):
+    with pytest.raises(TypeError):
         save_model(model, 1)
+
+    with pytest.raises(AssertionError):
+        save_model(model, encoder, lb,  1)
     with pytest.raises(AssertionError):
         load_model(1)
 
-    save_model(model, "testfile")
-    modelLoaded = load_model("testfile")
+    save_model(model, encoder, lb, "testfile")
+    modelLoaded, encLoaded, lbLoaded = load_model("testfile")
 
     assert(isinstance(model, type(modelLoaded)))
     assert((inference(model, X) == inference(modelLoaded, X)).all())
