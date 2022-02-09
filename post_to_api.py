@@ -23,4 +23,5 @@ if __name__=="__main__":
     # should return 'success'
     assert r.json() == {"inference_result": "<=50K"}
     assert r.status_code == 200
-
+    print("Inference result: " + r.json()["inference_result"])
+    print("Exit code: " + str(r.status_code))
