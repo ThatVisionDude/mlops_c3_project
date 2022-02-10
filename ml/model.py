@@ -87,12 +87,13 @@ def load_model(name: str):
 def get_rows(data, cat_variable, unique_cls):
     return data[data[cat_variable] == unique_cls].index
 
-def slice_performance(original_data, X,y, model, cat_variable):
+def slice_performance(original_data, X,y, model, cat_variable, filename = 'slice_output.txt'):
     """ 
     Slice the data along a categorical variable and 
     output the performance of the model
     """
-    print(f"Checking categorical variable {cat_variable}")
+    with open(filename, 'a') as fn:
+        fn.write(f"Checking categorical variable {cat_variable} \n")
     
     for unique_cls in original_data[cat_variable].unique():
         idx = get_rows(original_data.reset_index(), cat_variable, unique_cls)
@@ -100,9 +101,8 @@ def slice_performance(original_data, X,y, model, cat_variable):
         y_cls = y[idx]
         
         precision, recall, fbeta = compute_model_metrics(y_cls, inference(model, X_cls))
-        
-        print(f"Class: {unique_cls}")
-        print("Precision: " + str(precision))
-        print("Recall: " + str(recall))
-        print("FBeta: " + str(fbeta))
-    print()
+        with open(filename, 'a') as fn:    
+            fn.write(f"Class: {unique_cls} \n")
+            fn.write("Precision: " + str(precision) +"\n")
+            fn.write("Recall: " + str(recall)+"\n")
+            fn.write("FBeta: " + str(fbeta)+"\n")
